@@ -37,7 +37,7 @@ void repeat()
     */
     if (getchar() == '\033')    // the key pressed is either of the four arrow keys
     {
-        getchar();      // skip the [
+        getchar();      // skip the '['
         key = getchar();
         controlMovement(key);
     }
