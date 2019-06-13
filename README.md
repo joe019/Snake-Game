@@ -4,4 +4,4 @@ This game was developed in C based on the following C++ implementation: [Linux C
 Source code for the function \_`kbhit()` was obtained from: [kbhit() for linux](https://cboard.cprogramming.com/c-programming/63166-kbhit-linux.html)
 
 
-[![alt text](https://github.com/joe019/Snake-Game/blob/master/images/snakeGoogle.png)](https://www.google.com/search?client=ubuntu&channel=fs&q=snake+game&ie=utf-8&oe=utf-8)
+[![alt text](https://github.com/joe019/Snake-Game/blob/master/images/snakeGoogle.png)](https://www.google.com/search?q=snake+game)
