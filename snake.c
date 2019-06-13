@@ -293,7 +293,7 @@ void repeat()
     while(true)
     {
         delayBF(frameDelayMS);
-
+        
         if(_kbhit())   
         {
             if (getchar() == '\033')
