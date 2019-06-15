@@ -6,7 +6,7 @@
 #include <fcntl.h>   	// _kbhit()
 
 int borders[25][50];
-int snakeBody[50][2];
+int snakeBody[2][50];
 int food[2] = {0,0};
 int score = 0;
 int snakeLength = 3;
@@ -45,13 +45,13 @@ void setBorders()
 void setSnake()
 {
     snakeBody[0][0]=3; // x
-    snakeBody[0][1]=3; // y
+    snakeBody[1][0]=3; // y
 
-    snakeBody[1][0]=4; // x
+    snakeBody[0][1]=4; // x
     snakeBody[1][1]=3; // y
 
-    snakeBody[2][0]=5; // x
-    snakeBody[2][1]=3; // y
+    snakeBody[0][2]=5; // x
+    snakeBody[1][2]=3; // y
 
 
     // snakeBody[3][0]=6; /// Coordinates x
@@ -133,8 +133,8 @@ void putOrRemoveSnake(int flag)
     int i, snakeX, snakeY;
     for(i=0; i<snakeLength; i++)
     {
-        snakeX = snakeBody[i][0];
-        snakeY = snakeBody[i][1];
+        snakeX = snakeBody[0][i];
+        snakeY = snakeBody[1][i];
         if((snakeX!=0)&&(snakeY!=0))
         {
             borders[snakeY][snakeX]=flag;
@@ -172,22 +172,22 @@ void snakeMovement()
     int currentX, currentY, nextX, nextY;
     
     currentX = snakeBody[0][0];
-    currentY = snakeBody[0][1];
+    currentY = snakeBody[1][0];
 
     snakeBody[0][0] = currentX + moveSnake.x;
-    snakeBody[0][1] = currentY + moveSnake.y;
+    snakeBody[1][0] = currentY + moveSnake.y;
     
     nextX =snakeBody[0][0];
-    nextY =snakeBody[0][1];
+    nextY =snakeBody[1][0];
 
     int i;
     for(i=1; i<snakeLength; i++)
     {
-        nextX = snakeBody[i][0];
-        nextY = snakeBody[i][1];
+        nextX = snakeBody[0][i];
+        nextY = snakeBody[1][i];
 
-        snakeBody[i][0]=currentX;
-        snakeBody[i][1]=currentY;
+        snakeBody[0][i]=currentX;
+        snakeBody[1][i]=currentY;
 
         currentX = nextX;
         currentY = nextY;
@@ -245,7 +245,7 @@ void checkBorderHit()
 {
     int currentX,currentY;
     currentX = snakeBody[0][0];
-    currentY = snakeBody[0][1];
+    currentY = snakeBody[1][0];
 
     if( (currentX==0) || (currentX==49) || (currentY==0) || (currentY==24) )
     {
@@ -276,7 +276,7 @@ void checkFoodStatus()
     foodX=food[0];
     foodY=food[1];
 
-    if ( (foodX==snakeBody[0][0]) && (foodY==snakeBody[0][1]) )
+    if ( (foodX==snakeBody[0][0]) && (foodY==snakeBody[1][0]) )
     {
         borders[foodY][foodX]=0;
         food[0]=0;
