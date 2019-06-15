@@ -5,13 +5,11 @@
 #include <unistd.h>  	// _kbhit()
 #include <fcntl.h>   	// _kbhit()
 
-int borders[25][50];
-int snakeBody[2][50];
-int food[2] = {0,0};
+int gameBoard[25][50];	// defines the position of borders, snake and food
+int snakeBody[2][50];	// each column gives the (x,y) coordinates of snake, starting from head [x->(0,0) y->(1,0)]
+int food[2] = {0,0};	// (x,y) coordinates of food
 int score = 0;
 int snakeLength = 3;
-int horizontalSpeed = 1;
-int verticalSpeed = 1;
 
 struct Movement
 {
@@ -29,19 +27,19 @@ void setBorders()
     // horizontal borders
     for(i=0; i<=49; i++)
     {
-        borders[0][i]=1;    // top border
-        borders[24][i]=1;   // bottom border   
+        gameBoard[0][i]=1;    // top border
+        gameBoard[24][i]=1;   // bottom border   
     }
 
     // vertical borders
     for(i=1; i<=23; i++)
     {
-        borders[i][0]=1;    // left border
-        borders[i][49]=1;   // right border   
+        gameBoard[i][0]=1;    // left border
+        gameBoard[i][49]=1;   // right border   
     }        
 }
 
-// Set the initial position of the snake
+// Set the initial position of snake
 void setSnake()
 {
     snakeBody[0][0]=3; // x
@@ -52,14 +50,6 @@ void setSnake()
 
     snakeBody[0][2]=5; // x
     snakeBody[1][2]=3; // y
-
-
-    // snakeBody[3][0]=6; /// Coordinates x
-    // snakeBody[3][1]=3; /// Coordinates y
-
-
-    // snakeBody[4][0]=7; /// Coordinates x
-    // snakeBody[4][1]=3; /// Coordinates y
 }
 
 // Induces delay between frames
@@ -108,21 +98,21 @@ void controlMovement(char key)
     if(key=='A')    //up
     {
         moveSnake.x = 0;
-        moveSnake.y = -verticalSpeed;
+        moveSnake.y = -1;
     }
     else if(key=='B')   //down
     {
         moveSnake.x = 0;
-        moveSnake.y = verticalSpeed;
+        moveSnake.y = 1;
     }
     else if(key=='C')   //right
     {
-        moveSnake.x = horizontalSpeed;
+        moveSnake.x = 1;
         moveSnake.y = 0;
     }
     else if(key=='D')   //left
     {
-        moveSnake.x = -horizontalSpeed;
+        moveSnake.x = -1;
         moveSnake.y = 0;
     }
 }
@@ -137,7 +127,7 @@ void putOrRemoveSnake(int flag)
         snakeY = snakeBody[1][i];
         if((snakeX!=0)&&(snakeY!=0))
         {
-            borders[snakeY][snakeX]=flag;
+            gameBoard[snakeY][snakeX]=flag;
         }
     }
 }
@@ -154,7 +144,7 @@ void printObjects()
     {
         for(j=0; j<50; j++)
         {
-            p=borders[i][j];
+            p=gameBoard[i][j];
 
             if(p==1)
                 printf("#");
@@ -169,29 +159,16 @@ void printObjects()
 
 void snakeMovement()
 {
-    int currentX, currentY, nextX, nextY;
-    
-    currentX = snakeBody[0][0];
-    currentY = snakeBody[1][0];
-
-    snakeBody[0][0] = currentX + moveSnake.x;
-    snakeBody[1][0] = currentY + moveSnake.y;
-    
-    nextX =snakeBody[0][0];
-    nextY =snakeBody[1][0];
-
     int i;
-    for(i=1; i<snakeLength; i++)
+    
+    for(i=snakeLength; i>0; i--)
     {
-        nextX = snakeBody[0][i];
-        nextY = snakeBody[1][i];
-
-        snakeBody[0][i]=currentX;
-        snakeBody[1][i]=currentY;
-
-        currentX = nextX;
-        currentY = nextY;
+        snakeBody[0][i]=snakeBody[0][i-1];
+        snakeBody[1][i]=snakeBody[1][i-1];
     }
+
+    snakeBody[0][0] += moveSnake.x;
+    snakeBody[1][0] += moveSnake.y;
 }
 
 void writeToFile()
@@ -257,16 +234,23 @@ void checkBorderHit()
     }
 }
 
+int getRandomNumber(int divisor)
+{
+	return rand() % divisor + 1;
+}
+
 void placeFood()
 {
     int foodX, foodY;
     if (food[0]==0)
     {
-        foodX = rand() % 48 + 1;
-        foodY = rand() % 23 + 1;
+		foodX = getRandomNumber(48);
+    	foodY = getRandomNumber(23);
+    
         food[0] = foodX;
         food[1] = foodY;
-        borders[foodY][foodX]=2;
+
+        gameBoard[foodY][foodX]=2;
     }
 }
 
@@ -278,7 +262,7 @@ void checkFoodStatus()
 
     if ( (foodX==snakeBody[0][0]) && (foodY==snakeBody[1][0]) )
     {
-        borders[foodY][foodX]=0;
+        gameBoard[foodY][foodX]=0;
         food[0]=0;
         score++;
         snakeLength++;
