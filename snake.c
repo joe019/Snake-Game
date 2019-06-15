@@ -207,7 +207,6 @@ void readFromFile()
     if ((fptr = fopen("snakeFile.txt", "r")) == NULL)
     {
         printf("Error! opening file");
-        // Program exits if file pointer returns NULL.
         exit(1);
     }
 
