@@ -35,7 +35,7 @@ void repeat()
             '['
             'A', 'B', 'C' or 'D'
     */
-    if (getchar() == '\033')    // the key pressed is either of the four arrow keys
+    if (getchar() == '\033')    // the key pressed is one of the four arrow keys
     {
         getchar();      // skip the '['
         key = getchar();
