@@ -46,5 +46,5 @@ void repeat()
 ```
 ***
 References: <br>
-[C library function - clock()](https://www.tutorialspoint.com/c_standard_library/c_function_clock.htm) <br>
-[getch and arrow codes](https://stackoverflow.com/questions/10463201/getch-and-arrow-codes)
+1. [C library function - clock()](https://www.tutorialspoint.com/c_standard_library/c_function_clock.htm) <br>
+2. [getch and arrow codes](https://stackoverflow.com/questions/10463201/getch-and-arrow-codes)
